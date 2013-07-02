@@ -1,0 +1,46 @@
+<?php
+/**
+ * Implements hook_form_alter().
+ */
+function btm_search_slider_form_search_api_ranges_block_slider_view_form_alter(&$form, &$form_state) {
+  $form['#theme'] = array('btm_search_slider');
+}
+
+/**
+ * Implements hook_preprocess().
+ */
+function btm_search_slider_preprocess_btm_search_slider(&$vars) {
+  $vars['tickmarks'] = array();
+  // @TODO move this to a preprocess.
+  $slider_ticks_min = intval($vars['form']['range-min']['#value']);
+  $slider_ticks_max = intval($vars['form']['range-max']['#value']);
+  // Number of ticks.
+  $slider_ticks_count = (int) ($slider_ticks_max - $slider_ticks_min);
+  // % per tick.
+  $slider_ticks_pct = 100 / $slider_ticks_count;
+  for($i = 0; $i <= $slider_ticks_count; $i++) {
+    $vars['tickmarks'][] = array(
+      '#theme' => 'html_tag',
+      '#tag' => 'span',
+      '#attributes' => array('class' => array('tick'), 'style' => 'left: ' . ($i * $slider_ticks_pct) . '%;'),
+      '#value' => $slider_ticks_min + $i   
+    );
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function btm_search_slider_theme($existing, $type, $theme, $path) {
+  $retval = array();
+  
+  $retval['btm_search_slider'] = array(
+    'arguments' => array('form' => NULL),
+    'template' => 'btm-search-slider',
+    'render element' => 'form',
+    'path' => $path . "/theme"
+  );
+
+  return $retval;
+}
+

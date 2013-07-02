@@ -1,0 +1,13 @@
+@CHARSET "ISO-8859-1";
+
+.slider-tickmarks .tick {
+	width: 3em;
+	margin-left: -1.5em;
+	text-align: center;
+	position: absolute;
+}
+
+.slider-tickmarks {
+	position: relative;
+	height: 1.4em;
+}
